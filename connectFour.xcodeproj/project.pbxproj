@@ -11,6 +11,10 @@
 		35A9BDBD27D84EEC00B267C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A9BDBC27D84EEC00B267C9 /* ContentView.swift */; };
 		35A9BDBF27D84EF600B267C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35A9BDBE27D84EF600B267C9 /* Assets.xcassets */; };
 		35A9BDC227D84EF600B267C9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35A9BDC127D84EF600B267C9 /* Preview Assets.xcassets */; };
+		35EAC72327E0A94B00E51E39 /* Game Of Squids.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35EAC72227E0A94B00E51E39 /* Game Of Squids.ttf */; };
+		35EAC72727E7123200E51E39 /* startView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35EAC72627E7123100E51E39 /* startView.swift */; };
+		35EAC72A27E71F8B00E51E39 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35EAC72927E71F8B00E51E39 /* Player.swift */; };
+		35EAC72D27E721EA00E51E39 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35EAC72C27E721EA00E51E39 /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +24,10 @@
 		35A9BDBE27D84EF600B267C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35A9BDC127D84EF600B267C9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		35A9BDC327D84EF600B267C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35EAC72227E0A94B00E51E39 /* Game Of Squids.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Game Of Squids.ttf"; path = "game-of-squids/Game Of Squids.ttf"; sourceTree = "<group>"; };
+		35EAC72627E7123100E51E39 /* startView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = startView.swift; sourceTree = "<group>"; };
+		35EAC72927E71F8B00E51E39 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		35EAC72C27E721EA00E51E39 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,8 +62,12 @@
 			children = (
 				35A9BDBA27D84EEC00B267C9 /* connectFourApp.swift */,
 				35A9BDBC27D84EEC00B267C9 /* ContentView.swift */,
+				35EAC72627E7123100E51E39 /* startView.swift */,
+				35EAC72927E71F8B00E51E39 /* Player.swift */,
+				35EAC72C27E721EA00E51E39 /* Game.swift */,
 				35A9BDBE27D84EF600B267C9 /* Assets.xcassets */,
 				35A9BDC327D84EF600B267C9 /* Info.plist */,
+				35EAC72227E0A94B00E51E39 /* Game Of Squids.ttf */,
 				35A9BDC027D84EF600B267C9 /* Preview Content */,
 			);
 			path = connectFour;
@@ -127,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				35A9BDC227D84EF600B267C9 /* Preview Assets.xcassets in Resources */,
+				35EAC72327E0A94B00E51E39 /* Game Of Squids.ttf in Resources */,
 				35A9BDBF27D84EF600B267C9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,6 +151,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35EAC72A27E71F8B00E51E39 /* Player.swift in Sources */,
+				35EAC72D27E721EA00E51E39 /* Game.swift in Sources */,
+				35EAC72727E7123200E51E39 /* startView.swift in Sources */,
 				35A9BDBD27D84EEC00B267C9 /* ContentView.swift in Sources */,
 				35A9BDBB27D84EEC00B267C9 /* connectFourApp.swift in Sources */,
 			);
