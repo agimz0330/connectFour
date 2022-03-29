@@ -16,6 +16,10 @@ struct ContentView: View {
     @State private var player2point: Int = 0
     @State private var showAlert: Bool = false
     @State private var alertTitle: String = ""
+    @State private var sx: Int = 0 // when win, record smaller x
+    @State private var bx: Int = 0 // bigger y (index)
+    @State private var sy: Int = 0 // smaller y
+    @State private var by: Int = 0 // bigger y
     
     func  initial(){
         game.board = Array(repeating: Array(repeating: 0, count: 6), count: 7)
@@ -23,11 +27,98 @@ struct ContentView: View {
         game.player1.remainSteps = 21
         game.player2.remainSteps = 21
         
+        sx = 0
+        bx = 0
+        sy = 0
+        by = 0
+        
         if game.nowTurn == 2 && game.player2.playerType == PlayerType.computer{
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // wait 1 second
                 doComputerMove()
             }
         } // computer first
+    }
+    
+    func isWin(board: [[Int]], x: Int, y: Int, player: Int) -> Bool{ // 是否連線
+        var startX = x
+        var endX = x
+        var startY = y
+        var endY = y
+        
+        // 橫(左->右)x
+        while(endX < 6 && board[endX+1][y] == player){
+            endX += 1
+        }
+        while(startX >= 1 && board[startX-1][y] == player){
+            startX -= 1
+        }
+        if(endX - startX >= 3){
+            sx = startX
+            bx = endX
+            sy = y
+            by = y
+            return true
+        }
+        
+        // 直(上->下)y
+        while(endY < 5 && board[x][endY+1] == player){
+            endY += 1
+        }
+        while(startY >= 1 && board[x][startY-1] == player){
+            startY -= 1
+        }
+        if(endY - startY >= 3){
+            sx = x
+            bx = x
+            sy = startY
+            by = endY
+            return true
+        }
+        
+        // 斜/(右上->左下)x+y- x-y+
+        startX = x
+        endX = x
+        startY = y
+        endY = y
+        while(endX < 6 && startY >= 1 && board[endX+1][startY-1] == player){
+            endX += 1
+            startY -= 1
+        }
+        while(startX >= 1 && endY < 5 && board[startX-1][endY+1] == player){
+            startX -= 1
+            endY += 1
+        }
+        if(endY - startY >= 3){
+            sx = startX
+            bx = endX
+            sy = endY
+            by = startY
+            return true
+        }
+        
+        // 斜\(左上->右下)x+y+ x-y-
+        startX = x
+        endX = x
+        startY = y
+        endY = y
+        
+        while(startX >= 1 && startY >= 1 && board[startX-1][startY-1] == player){
+            startX -= 1
+            startY -= 1
+        }
+        while(endX < 6 && endY < 5 && board[endX+1][endY+1] == player){
+            endX += 1
+            endY += 1
+        }
+        if(endY - startY >= 3){
+            sx = startX
+            bx = endX
+            sy = startY
+            by = endY
+            return true
+        }
+        
+        return false
     }
     
     func doComputerMove(){
@@ -54,8 +145,8 @@ struct ContentView: View {
             if game.player1.remainSteps == 0 && game.player2.remainSteps == 0{ // 平手
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // wait 1 second
                     showAlert = true
-                                    alertTitle = "no Space!"
-                                    initial()
+                    alertTitle = "no Space!"
+                    initial()
                 }
             }
         }
@@ -77,15 +168,15 @@ struct ContentView: View {
             if win{
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // wait 1 second
                     showAlert = true
-                                    alertTitle = "You WINNNNN !"
-                                    
-                                    if game.nowTurn == 1{ // 比數+1
-                                        player1point += 1
-                                    }
-                                    else{
-                                        player2point += 1
-                                    }
-                                    initial()
+                    alertTitle = "You WINNNNN !"
+                    
+                    if game.nowTurn == 1{ // 比數+1
+                        player1point += 1
+                    }
+                    else{
+                        player2point += 1
+                    }
+                    initial()
                 }
             }
             else{
@@ -123,7 +214,7 @@ struct ContentView: View {
                     .background(
                         Rectangle()
                             .fill(darkColor)
-                            .frame(width: .greatestFiniteMagnitude, height: 30)
+                            .frame(width: .greatestFiniteMagnitude, height: 40)
                     )
                 
                 Button(action: { // 按叉叉 返回前一頁
@@ -144,7 +235,7 @@ struct ContentView: View {
             .background(
                 Rectangle()
                     .fill(lightColor)
-                    .frame(height: 30)
+                    .frame(height: 35)
             )
             
             HStack{ // 兩個圈圈，剩餘步數，比數
@@ -231,9 +322,8 @@ struct ContentView: View {
                 .alert(isPresented: $showAlert) { () -> Alert in
                     return Alert(title: Text("\(alertTitle)"))
                  }
-//                winLine() // 畫線(直或橫)
-//                    .stroke(Color(red: 162/255, green: 163/255, blue: 210/255), lineWidth: 10)
-//                    .offset(x: 45.0, y: -42) // x:45, y:-42
+                
+                winLine(sx: $sx, bx: $bx, sy: $sy, by: $by) // 畫線(直或橫)
             }
             
             HStack{
@@ -281,13 +371,6 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    @State static var game = Game()
-    static var previews: some View {
-        ContentView(showGameView: .constant(true), game: $game)
-    }
-}
-
 struct buttonView: View {
     var color1: Color
     var color2: Color
@@ -317,12 +400,23 @@ struct buttonView: View {
     }
 }
 
-struct winLine: Shape {
-    func path(in rect: CGRect) -> Path {
+struct winLine: View {
+    @Binding var sx: Int // when win, record smaller x
+    @Binding var bx: Int // bigger y
+    @Binding var sy: Int // smaller y
+    @Binding var by: Int // bigger y
+    
+    var body: some View{
+        let lineColor: Color = Color(red: 162/255, green: 163/255, blue: 210/255)
+        let x: [Int] = [68, 117, 162, 205, 250, 292, 237]
+        let y: [Int] = [29,  75, 118, 160, 205, 247]
+        
         Path { (path) in
-            path.move(to: CGPoint(x: 70, y: 100))
-            path.addLine(to: CGPoint(x: 70, y: 260))
+            path.move(to: CGPoint(x: x[sx], y: y[sy]))
+            path.addLine(to: CGPoint(x: x[bx], y: y[by]))
         }
+        .stroke(lineColor, lineWidth: 15)
+        .cornerRadius(5)
     }
 }
 
