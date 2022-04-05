@@ -89,10 +89,10 @@ struct ContentView: View {
             endY += 1
         }
         if(endY - startY >= 3){
-            sx = startX
-            bx = endX
-            sy = endY
-            by = startY
+            sx = endX
+            bx = startX
+            sy = startY
+            by = endY
             return true
         }
         
@@ -166,7 +166,7 @@ struct ContentView: View {
             
             let win = isWin(board: game.board, x: x, y: yyy, player: game.nowTurn)
             if win{
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // wait 1 second
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) { // wait 1 second
                     showAlert = true
                     alertTitle = "You WINNNNN !"
                     
@@ -407,7 +407,7 @@ struct winLine: View {
     @Binding var by: Int // bigger y
     
     var body: some View{
-        let lineColor: Color = Color(red: 162/255, green: 163/255, blue: 210/255)
+        let lineColor: Color = Color(red: 180/255, green: 180/255, blue: 225/255)
         let x: [Int] = [68, 117, 162, 205, 250, 292, 237]
         let y: [Int] = [29,  75, 118, 160, 205, 247]
         
